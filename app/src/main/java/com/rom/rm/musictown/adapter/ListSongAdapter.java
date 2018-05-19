@@ -1,4 +1,4 @@
-package com.rom.rm.musictown.Adapter;
+package com.rom.rm.musictown.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

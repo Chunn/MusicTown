@@ -24,6 +24,12 @@ public class Song {
         this.album=album;
     }
 
+    public Song(int id, String nameSong, String urlSong) {
+        this.id = id;
+        this.nameSong = nameSong;
+        this.urlSong = urlSong;
+    }
+
     public Song(String nameSong, String nameSinger, int imageSong, String urlSong, String album) {
         this.nameSong = nameSong;
         this.nameSinger = nameSinger;
@@ -40,6 +46,7 @@ public class Song {
         this.nameSinger = nameSinger;
         this.urlSong = urlSong;
     }
+
 
     public Song(int id, int idKind, int idSinger, String nameSong, String nameSinger, int imageSong, String urlSong) {
         this.id = id;

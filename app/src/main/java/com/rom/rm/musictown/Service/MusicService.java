@@ -15,7 +15,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
-import com.rom.rm.musictown.ManagerSong.SongManager;
+import com.rom.rm.musictown.ManagerSong.SongOfflineManager;
 import com.rom.rm.musictown.activity.HomeFragment;
 import com.rom.rm.musictown.activity.PlayMusic;
 import com.rom.rm.musictown.dataModel.Song;
@@ -40,8 +40,8 @@ public class MusicService extends Service  implements
     public void onCreate(){
         super.onCreate();
         positionCurrent=0;
-        SongManager songManager= new SongManager();
-        songs=songManager.getSongsOffline();
+        SongOfflineManager songOfflineManager = new SongOfflineManager();
+        songs= songOfflineManager.getSongsOffline();
         initMediaPlayer();
 
         IntentFilter filter = new IntentFilter();

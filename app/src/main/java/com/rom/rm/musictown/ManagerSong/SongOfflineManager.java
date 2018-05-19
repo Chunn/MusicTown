@@ -13,20 +13,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SongManager {
+public class SongOfflineManager {
     final String MEDIA_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()+"/media/music";
     private ArrayList<Song> songsOffline = new ArrayList();
 
 
 
-    public SongManager() {
+    public SongOfflineManager() {
     }
     public ArrayList<Song> getSongsOffline() {
         File home = new File(this.MEDIA_PATH);
         MediaMetadataRetriever mediaMetadataRetriever= new MediaMetadataRetriever();
         if (home.listFiles(new FileExtensionFilter()).length>0) {
             File[] files;
-            int count = (files = home.listFiles(new SongManager.FileExtensionFilter())).length;
+            int count = (files = home.listFiles(new SongOfflineManager.FileExtensionFilter())).length;
             File file;
             String nameSong;
             String singerName;
@@ -41,7 +41,7 @@ public class SongManager {
                 nameSong=mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
                 singerName=mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
                 album=mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-                String p[]=fileName.split("-");
+                String p[]=fileName.split("_");
                 if (singerName==null){
                     try {
                         singerName=p[1];
@@ -84,6 +84,22 @@ public class SongManager {
     }
     private List<Integer> listImg(){
         ArrayList<Integer> list=new ArrayList<>();
+        list.add(R.drawable.alittlelove);
+        list.add(R.drawable.forever);
+        list.add(R.drawable.forever_friend);
+        list.add(R.drawable.hello_goodbye);
+        list.add(R.drawable.kiss);
+        list.add(R.drawable.mua);
+        list.add(R.drawable.ton_tai);
+        list.add(R.drawable.con_mua_tuoi_thanh_xuan);
+        list.add(R.drawable.alittlelove);
+        list.add(R.drawable.forever);
+        list.add(R.drawable.forever_friend);
+        list.add(R.drawable.hello_goodbye);
+        list.add(R.drawable.kiss);
+        list.add(R.drawable.mua);
+        list.add(R.drawable.ton_tai);
+        list.add(R.drawable.con_mua_tuoi_thanh_xuan);
         list.add(R.drawable.alittlelove);
         list.add(R.drawable.forever);
         list.add(R.drawable.forever_friend);

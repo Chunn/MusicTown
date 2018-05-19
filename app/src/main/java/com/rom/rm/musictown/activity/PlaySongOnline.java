@@ -3,9 +3,9 @@ package com.rom.rm.musictown.activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,16 +18,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.rom.rm.musictown.R;
-import com.rom.rm.musictown.ManagerSong.SongOfflineManager;
 import com.rom.rm.musictown.dataModel.Song;
 
+
+
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
-public class PlayMusic extends AppCompatActivity implements View.OnClickListener {
+public class PlaySongOnline extends AppCompatActivity implements View.OnClickListener {
     private TextView tv_nameSong;
-    private TextView tv_nameSinger;
     private TextView tv_timeStart;
     private TextView tv_timeEnd;
 
@@ -39,10 +41,9 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
 
     private ImageView imageView;
 
-    private ArrayList<Song> songs;
+    public static ArrayList<Song> songs=new ArrayList<>();
     private int position;
     private String songName;
-    private String singerName;
 
 
     private MediaPlayer mediaPlayer;
@@ -50,31 +51,23 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
     private Animation animation;
 
     public static final String ACTION_PLAY = "action_play";
-    private Intent playIntent;
+
+    public static final String url="https://docs.google.com/uc?export=download&id=";
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.play_music);
 
         init();
-        SongOfflineManager songOfflineManager =new SongOfflineManager();
-        songs= songOfflineManager.getSongsOffline();
-
+        songs=SearchFragment.songs;
         Intent intent=getIntent();
         position=intent.getIntExtra(HomeFragment.INDEX,HomeFragment.POSITION);
         initMediaPlayer();
         mediaPlayer.start();
         img_play.setImageResource(R.drawable.playing_white);
-
-
-        /*if (this.playIntent == null) {
-            this.playIntent = new Intent(this, MusicService.class);
-            this.startService(this.playIntent);
-        }
-*/
-
         img_play.setOnClickListener(this);
         img_next.setOnClickListener(this);
         img_previous.setOnClickListener(this);
@@ -92,7 +85,7 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-               //di chuyển seekbar đến vị trí nào đó nhả tay ra nó sẽ cập nhật giá trị
+                //di chuyển seekbar đến vị trí nào đó nhả tay ra nó sẽ cập nhật giá trị
                 mediaPlayer.seekTo(seekBar.getProgress()); //nhảy đến đoạn nào (giây)
             }
         });
@@ -101,7 +94,6 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
     }
     private void init(){
         tv_nameSong= findViewById(R.id.name_song);
-        tv_nameSinger=findViewById(R.id.name_singer);
         tv_timeStart=findViewById(R.id.tv_timeEnd);
         tv_timeEnd=findViewById(R.id.tv_timeStart);
 
@@ -113,15 +105,15 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
 
         imageView=findViewById(R.id.anim);
 
-        songs=new ArrayList<Song>();
+
     }
     private void initMediaPlayer(){
         songName=songs.get(position).getNameSong();
-        singerName=songs.get(position).getNameSinger();
         Log.d("INDEX",position+"");
         mediaPlayer = new MediaPlayer();
         try {
-            mediaPlayer.setDataSource(songs.get(position).getUrlSong());
+            mediaPlayer.setDataSource(url+songs.get(position).getUrlSong());
+            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,10 +124,9 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
         }
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         tv_nameSong.setText(songName);
-        tv_nameSinger.setText(singerName);
         setTimeSong();
         updateTimeSong();
-        animation= AnimationUtils.loadAnimation(PlayMusic.this,R.anim.infinite);
+        animation= AnimationUtils.loadAnimation(PlaySongOnline.this,R.anim.infinite);
 
     }
 
@@ -203,28 +194,25 @@ public class PlayMusic extends AppCompatActivity implements View.OnClickListener
                 handler.postDelayed(this,500);
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
                 //chuyển next bài hát
-               mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                   @Override
-                   public void onCompletion(MediaPlayer mp) {
-                       position++;
-                       if (position>songs.size()-1){
-                           position=0;
-                       }
-                       if (mediaPlayer.isPlaying()){
-                           mediaPlayer.stop();
-                       }
-                       initMediaPlayer();
-                       mediaPlayer.start();
-                       img_play.setImageResource(R.drawable.playing_white);
-                   }
-               });
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        position++;
+                        if (position>songs.size()-1){
+                            position=0;
+                        }
+                        if (mediaPlayer.isPlaying()){
+                            mediaPlayer.stop();
+                        }
+                        initMediaPlayer();
+                        mediaPlayer.start();
+                        img_play.setImageResource(R.drawable.playing_white);
+                    }
+                });
             }
         },100);
 
     }
-    public void songPicked() {
-        Intent intent = new Intent(ACTION_PLAY);
-        intent.putExtra(HomeFragment.INDEX, HomeFragment.POSITION);
-        sendBroadcast(intent);
-    }
+
 }
+

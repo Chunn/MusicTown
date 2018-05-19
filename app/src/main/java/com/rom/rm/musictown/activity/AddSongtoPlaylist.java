@@ -9,9 +9,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.rom.rm.musictown.Adapter.ListSongAdapter;
-import com.rom.rm.musictown.Adapter.ListSongSelectAdapter;
-import com.rom.rm.musictown.ManagerSong.SongManager;
+import com.rom.rm.musictown.adapter.ListSongSelectAdapter;
+import com.rom.rm.musictown.ManagerSong.SongOfflineManager;
 import com.rom.rm.musictown.R;
 import com.rom.rm.musictown.dataModel.Song;
 
@@ -22,7 +21,7 @@ public class AddSongtoPlaylist extends AppCompatActivity{
     private Toolbar toolbar;
     private ListSongSelectAdapter listSongAdapter;
     private ListView listView;
-    private SongManager songManager;
+    private SongOfflineManager songOfflineManager;
     private ArrayList<Song> songs;
 
     @Override
@@ -30,7 +29,7 @@ public class AddSongtoPlaylist extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_song_to_playlist);
         init();
-        songs=songManager.getSongsOffline();
+        songs= songOfflineManager.getSongsOffline();
         listSongAdapter=new ListSongSelectAdapter(AddSongtoPlaylist.this,R.layout.row_playlist, songs);
         listView.setAdapter(listSongAdapter);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -55,7 +54,7 @@ public class AddSongtoPlaylist extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         listView=findViewById(R.id.lv_song_add);
-        songManager=new SongManager();
+        songOfflineManager =new SongOfflineManager();
     }
 
     // Menu icons are inflated just as they were with actionbar

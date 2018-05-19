@@ -1,4 +1,4 @@
-package com.rom.rm.musictown.Adapter;
+package com.rom.rm.musictown.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,14 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rom.rm.musictown.ManagerSong.SongManager;
 import com.rom.rm.musictown.R;
-import com.rom.rm.musictown.activity.HomeFragment;
 import com.rom.rm.musictown.dataModel.PlayList;
-import com.rom.rm.musictown.dataModel.Song;
 
 import java.util.ArrayList;
 import java.util.List;

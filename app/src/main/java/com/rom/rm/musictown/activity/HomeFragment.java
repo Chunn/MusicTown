@@ -14,9 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.rom.rm.musictown.Adapter.ListSongAdapter;
+import com.rom.rm.musictown.adapter.ListSongAdapter;
 import com.rom.rm.musictown.R;
-import com.rom.rm.musictown.ManagerSong.SongManager;
+import com.rom.rm.musictown.ManagerSong.SongOfflineManager;
 import com.rom.rm.musictown.dataModel.Song;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class HomeFragment extends AppCompatActivity {
     public static String INDEX="INDEX";
     public static int POSITION=1;
     private ListSongAdapter songAdapter;
-    private SongManager songManager;
+    private SongOfflineManager songOfflineManager;
 
     public static void setSongs(ArrayList<Song> songs) {
         HomeFragment.songs = songs;
@@ -53,8 +53,8 @@ public class HomeFragment extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         songs=new ArrayList<Song>();
-        songManager= new SongManager();
-        songs=songManager.getSongsOffline();
+        songOfflineManager = new SongOfflineManager();
+        songs= songOfflineManager.getSongsOffline();
         songAdapter= new ListSongAdapter(this,R.layout.row_list_song,songs);
         list_song.setAdapter(songAdapter);
         list_song.setOnItemClickListener(new AdapterView.OnItemClickListener() {
